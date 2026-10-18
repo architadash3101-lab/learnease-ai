@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LearnEase AI — Adaptive learning companion for inclusive classrooms</title>
+<meta name="description" content="LearnEase AI: an AI & machine learning learning companion for students with dyslexia, dyscalculia and ADHD. Adaptive lessons, quizzes, learning-gap detection and teacher alerts. Aligned with UN SDG 4. All data synthetic, runs fully in the browser." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234361ee'/%3E%3Ctext x='16' y='22' font-size='16' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'%3ELE%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">LE</div>
+    <div>LearnEase AI<small>AI &amp; ML learning companion · inclusive classrooms</small></div>
+  </div>
+  <div class="spacer"></div>
+  <div class="agents-mini">
+    <span class="agent-chip">📚 Tutor</span>
+    <span class="agent-chip">🎯 Quiz Master</span>
+    <span class="agent-chip">🧠 Gap Detector</span>
+    <span class="agent-chip">⏰ Reminder</span>
+    <span class="agent-chip">🔔 Teacher Alert</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ HERO ============ -->
+  <div class="hero" id="home">
+    <h1>Every learner deserves a personal tutor 🌏</h1>
+    <p>LearnEase AI is a learning companion for school students with <b>dyslexia</b>, <b>dyscalculia</b> and <b>ADHD</b>.
+    It adapts lessons to each student, gives adaptive practice, and warns teachers and parents <b>early</b> when a student
+    starts falling behind — supporting <b>UN SDG 4: Quality Education</b>. Everything on this page runs in your browser:
+    the machine learning models are really trained here, and all data is <b>synthetic</b> (demo mode with a mock LLM).</p>
+    <div class="badges">
+      <span class="badge">🧠 Real in-browser ML</span>
+      <span class="badge">♿ Dyslexia · dyscalculia · ADHD modes</span>
+      <span class="badge">🇮🇳 Hindi &amp; Telugu support</span>
+      <span class="badge">🔒 No backend · no API keys · synthetic data</span>
+      <span class="badge">🤖 Five-agent system</span>
+    </div>
+    <div class="cta-row row">
+      <a class="btn" href="#tutor" data-tab-link="tutor">📚 Try the Tutor</a>
+      <a class="btn ghost-btn" href="#quiz" data-tab-link="quiz">🎯 Take an adaptive quiz</a>
+      <a class="btn ghost-btn" href="#gap" data-tab-link="gap">🧠 Train the gap models</a>
+    </div>
+  </div>
+
+  <!-- ============ NAV TABS ============ -->
+  <nav class="tabs" aria-label="Sections">
+    <button data-tab="tutor" class="on">📚 Lesson Support</button>
+    <button data-tab="quiz">🎯 Adaptive Quiz</button>
+    <button data-tab="gap">🧠 Gap Detector (ML)</button>
+    <button data-tab="agents">🤖 Agents &amp; Alerts</button>
+    <button data-tab="teacher">🏫 Teacher Dashboard</button>
+    <button data-tab="impact">🌍 Responsible AI &amp; SDG 4</button>
+    <button data-tab="business">💼 Business View</button>
+  </nav>
+
+  <!-- ============ TUTOR ============ -->
+  <section id="tab-tutor">
+    <div class="sec-head"><h2>📚 Lesson Support — Tutor Agent</h2><span class="sec-badge">TUTOR AGENT</span></div>
+    <p class="muted">Paste any lesson text and get a simplified, step-by-step version with key words, read-aloud with word-by-word
+    highlighting, translation and readability scoring. Supports dyslexia, ADHD and dyscalculia display modes.</p>
+
+    <div class="grid g2">
+      <div class="card">
+        <h3><span class="dot">①</span> Paste your lesson</h3>
+        <label for="lesson-input">Lesson text (English)</label>
+        <textarea id="lesson-input" aria-label="Lesson text"></textarea>
+        <div class="row" style="margin-top:10px">
+          <button id="btn-simplify">✨ Simplify lesson</button>
+          <button id="btn-load-sample" class="ghost">Load sample lesson</button>
+          <button id="btn-clear-lesson" class="ghost">Clear</button>
+        </div>
+        <p class="muted" style="margin-top:8px">Demo mode uses a built-in mock LLM (dictionary + rule simplifier).
+        A real LLM API can be plugged into <code>LEAREASE.llm</code> later without changing the UI.</p>
+      </div>
+
+      <div class="card">
+        <h3><span class="dot">②</span> Accessibility &amp; language</h3>
+        <div class="row" style="margin:6px 0">
+          <label>Support mode:</label>
+          <div class="seg" role="group" aria-label="Support mode">
+            <button data-mode="standard" class="on">Standard</button>
+            <button data-mode="dyslexia">Dyslexia</button>
+            <button data-mode="adhd">ADHD</button>
+            <button data-mode="dyscalculia">Dyscalculia</button>
+          </div>
+        </div>
+        <div class="row" style="margin:6px 0">
+          <label for="fs-range">Text size</label>
+          <input type="range" id="fs-range" min="14" max="22" step="1" value="16" />
+          <span id="fs-val" class="val small">16px</span>
+          <label for="ls-range" style="margin-left:8px">Line spacing</label>
+          <input type="range" id="ls-range" min="1.4" max="2.4" step="0.1" value="1.7" />
+          <span id="ls-val" class="val small">1.7</span>
+        </div>
+        <div class="row" style="margin:6px 0">
+          <button id="btn-contrast" class="ghost">🌓 High contrast: off</button>
+          <button id="btn-dysfont" class="ghost">🔤 Dyslexia-friendly spacing: off</button>
+          <label for="lang-select" style="margin-left:8px">Translate:</label>
+          <select id="lang-select">
+            <option value="none">English (original)</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+            <option value="te">తెలుగు (Telugu)</option>
+          </select>
+        </div>
+        <div class="row" style="margin:6px 0">
+          <button id="btn-readaloud">🔊 Read aloud (word-by-word highlight)</button>
+          <span id="read-status" class="small muted"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="row" style="justify-content:space-between">
+        <h3><span class="dot">③</span> Simplified lesson</h3>
+        <div id="readability-pills"></div>
+      </div>
+      <div id="lesson-output" class="lesson-out" aria-live="polite">Paste a lesson and press <b>✨ Simplify lesson</b> — or load the sample lesson to see the full flow.</div>
+      <div id="lesson-steps"></div>
+      <h3 style="margin-top:14px"><span class="dot">🔑</span> Key words with plain-language meanings</h3>
+      <div id="kw-list"><span class="muted small">Key words appear here after simplifying a lesson.</span></div>
+    </div>
+  </section>
+
+  <!-- ============ QUIZ ============ -->
+  <section id="tab-quiz" hidden>
+    <div class="sec-head"><h2>🎯 Adaptive Quiz — Quiz Master Agent</h2><span class="sec-badge">QUIZ MASTER AGENT</span></div>
+    <p class="muted">The ability estimate updates after <b>every</b> answer (Elo/IRT-style with a confidence band), and the next
+    question is chosen by an Upper-Confidence-Band rule — the reason is always shown.</p>
+
+    <div class="grid g2">
+      <div class="card">
+        <div class="row" style="justify-content:space-between">
+          <h3>Current question</h3>
+          <span id="q-progress" class="muted small"></span>
+        </div>
+        <div id="q-topic-level" class="muted small" style="margin-bottom:6px"></div>
+        <div id="q-text" style="font-weight:700; font-size:1.05rem"></div>
+        <div id="q-options"></div>
+        <div id="q-feedback"></div>
+        <div class="row" style="margin-top:10px">
+          <button id="btn-hint" class="ghost">💡 Hint</button>
+          <button id="btn-retry" class="ghost" hidden>🔁 Try again</button>
+          <button id="btn-next" hidden>Next question →</button>
+          <button id="btn-quiz-reset" class="ghost">Reset session</button>
+        </div>
+        <div id="q-hint" class="hint-box" hidden></div>
+        <div id="q-reason" class="quiz-reason"></div>
+      </div>
+
+      <div class="card">
+        <div class="row" style="justify-content:space-between">
+          <h3>Your ability estimate</h3>
+          <span class="muted small">updates after every answer</span>
+        </div>
+        <div class="row">
+          <div class="ability-big" id="ability-val">–</div>
+          <div class="ci-band" id="ci-val"></div>
+        </div>
+        <div class="stat-line" style="margin:8px 0">
+          <span>Answered: <b id="q-answered">0</b></span>
+          <span>Correct: <b id="q-correct">0</b></span>
+          <span>Accuracy: <b id="q-acc">–</b></span>
+        </div>
+        <label class="small" style="margin-top:6px">Practice topics</label>
+        <div class="row" id="topic-filters" style="margin:4px 0 8px"></div>
+        <canvas id="chart-ability" height="220" aria-label="Ability over time"></canvas>
+        <canvas id="chart-topicacc" class="small-c" aria-label="Accuracy by topic"></canvas>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px" id="quiz-summary-card">
+      <h3>📋 Session summary</h3>
+      <div id="quiz-summary"><span class="muted">Answer a few questions to see your summary, ability trajectory and per-topic accuracy.</span></div>
+    </div>
+  </section>
+
+  <!-- ============ GAP DETECTOR ============ -->
+  <section id="tab-gap" hidden>
+    <div class="sec-head"><h2>🧠 Learning-Gap Detection — Gap Detector Agent</h2><span class="sec-badge">GAP DETECTOR AGENT · REAL ML</span></div>
+    <p class="muted">Three models are genuinely trained <b>in your browser</b> on a synthetic dataset of <b id="ds-size">…</b> students
+    (features: scores, score trend, time per question, retries, completion, days inactive — all synthetic).</p>
+
+    <div class="card" style="margin-bottom:14px">
+      <div class="row" style="justify-content:space-between">
+        <h3>🚂 Train models</h3>
+        <div class="row">
+          <label for="train-frac">Train/test split</label>
+          <select id="train-frac">
+            <option value="0.7">70% / 30%</option>
+            <option value="0.8" selected>80% / 20%</option>
+            <option value="0.9">90% / 10%</option>
+          </select>
+          <button id="btn-train-all">🚂 Train all models</button>
+          <button id="btn-retrain" class="ghost">🔄 Retrain</button>
+        </div>
+      </div>
+      <div class="progress-outer" style="margin:12px 0 6px" aria-label="Training progress">
+        <div class="progress-inner" id="train-progress" style="width:0%"></div>
+      </div>
+      <div class="row small muted" style="justify-content:space-between">
+        <span id="train-status">Models not trained yet — press “Train all models”. Sample risk scores shown until then use the dataset’s built-in labels.</span>
+        <span id="train-eta"></span>
+      </div>
+      <div class="grid g3" style="margin-top:12px">
+        <div class="card" style="box-shadow:none;border:2px solid var(--grid)">
+          <h3>Loss curve</h3>
+          <canvas id="chart-loss" class="xs"></canvas>
+        </div>
+        <div class="card" style="box-shadow:none;border:2px solid var(--grid)">
+          <h3>Model comparison (F1)</h3>
+          <canvas id="chart-f1" class="xs"></canvas>
+        </div>
+        <div class="card" style="box-shadow:none;border:2px solid var(--grid)">
+          <h3>ROC curve &amp; AUC</h3>
+          <canvas id="chart-roc" class="xs"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px">
+      <h3>📊 Model comparison</h3>
+      <div class="table-wrap">
+        <table id="model-table">
+          <thead><tr><th class="nosort">Model</th><th class="nosort">Accuracy</th><th class="nosort">Precision</th><th class="nosort">Recall</th><th class="nosort">F1</th><th class="nosort">AUC</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="grid g2" style="margin-top:12px">
+        <div>
+          <h3 class="small" style="text-align:center">Confusion matrix — best model</h3>
+          <canvas id="chart-cm" class="xs"></canvas>
+        </div>
+        <div>
+          <h3 class="small" style="text-align:center">Prediction on a sample student (best model)</h3>
+          <div id="model-sample-note" class="muted small"></div>
+          <canvas id="chart-sample-risk" class="xs"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid g2">
+      <div class="card">
+        <h3>🔍 Explainable AI — factor contributions</h3>
+        <div class="row">
+          <label for="xai-student">Student:</label>
+          <select id="xai-student"></select>
+          <label for="xai-model">Model:</label>
+          <select id="xai-model">
+            <option value="logreg">Logistic regression</option>
+            <option value="mlp">Neural network</option>
+            <option value="tree">Decision tree</option>
+          </select>
+        </div>
+        <div id="xai-factors" style="margin:12px 0"></div>
+        <h3 class="small">🎛️ What-if sliders (risk updates live)</h3>
+        <div class="slider-grid" id="whatif-sliders"></div>
+        <div class="row" style="margin-top:10px;justify-content:space-between">
+          <div id="whatif-risk" style="font-weight:800;font-size:1.1rem"></div>
+          <button id="btn-whatif-reset" class="small-btn ghost">Reset sliders</button>
+        </div>
+        <div id="xai-explain" class="explain-plain" style="margin-top:10px"></div>
+      </div>
+
+      <div class="card">
+        <h3>👥 Learning profiles — k-means clustering</h3>
+        <div class="row">
+          <label for="k-k">Clusters (k):</label>
+          <select id="k-k"><option>2</option><option>3</option><option selected>4</option><option>5</option></select>
+          <label for="k-x">X axis:</label>
+          <select id="k-x"></select>
+          <label for="k-y">Y axis:</label>
+          <select id="k-y"></select>
+          <button id="btn-cluster" class="small-btn">Re-cluster</button>
+        </div>
+        <canvas id="chart-cluster" class="tall"></canvas>
+        <div id="cluster-profiles"></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="row" style="justify-content:space-between">
+        <h3>📈 Progress forecasting</h3>
+        <div class="row">
+          <label for="fc-student">Student:</label>
+          <select id="fc-student"></select>
+          <span class="muted small">next 4 quiz scores (trend + seasonality model, estimate)</span>
+        </div>
+      </div>
+      <div class="grid g2">
+        <div><h3 class="small" style="text-align:center">Past 8 scores → next 4 forecast</h3><canvas id="chart-forecast"></canvas></div>
+        <div id="forecast-notes"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AGENTS ============ -->
+  <section id="tab-agents" hidden>
+    <div class="sec-head"><h2>🤖 Multi-Agent System</h2><span class="sec-badge">5 AGENTS</span></div>
+    <div class="summary-strip" id="agents-overview"></div>
+
+    <div class="grid g2">
+      <div class="card">
+        <h3>🕰️ Agent activity timeline</h3>
+        <p class="muted small">Every agent logs what it did and why — full transparency for teachers and parents.</p>
+        <div id="timeline"></div>
+      </div>
+
+      <div class="card">
+        <h3>⏰ Reminder Agent — study plan &amp; message preview</h3>
+        <div class="row">
+          <label for="rem-student">Student:</label>
+          <select id="rem-student"></select>
+          <button id="btn-remind" class="small-btn">Generate plan &amp; message</button>
+        </div>
+        <div class="channel-tabs" style="margin-top:10px">
+          <button id="ch-wa" class="on">💬 WhatsApp style</button>
+          <button id="ch-mail">✉️ Email style</button>
+        </div>
+        <div id="rem-msg" class="msg-preview">Choose a student and press <b>Generate plan &amp; message</b>.</div>
+        <div id="rem-plan" style="margin-top:10px"></div>
+        <div class="row" style="margin-top:10px">
+          <button id="btn-rem-copy" class="small-btn">📋 Copy message</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <h3>🔔 Teacher Alert Agent — kind, actionable alerts</h3>
+      <div class="row">
+        <label for="alert-student">Student:</label>
+        <select id="alert-student"></select>
+        <label for="alert-audience">Audience:</label>
+        <select id="alert-audience">
+          <option value="teacher">👩‍🏫 For the teacher</option>
+          <option value="parent">👨‍👩‍👧 For the parent</option>
+        </select>
+        <button id="btn-alert" class="small-btn">Generate alert</button>
+        <button id="btn-alert-copy" class="small-btn ghost">📋 Copy</button>
+      </div>
+      <div id="alert-out" style="margin-top:12px"><span class="muted">Choose a student and press <b>Generate alert</b>. Alerts are early-warning assists — never diagnoses.</span></div>
+    </div>
+  </section>
+
+  <!-- ============ TEACHER DASHBOARD ============ -->
+  <section id="tab-teacher" hidden>
+    <div class="sec-head"><h2>🏫 Teacher Dashboard</h2><span class="sec-badge">SAMPLE CLASS OF 30 · SYNTHETIC</span></div>
+    <div class="summary-strip" id="class-summary"></div>
+
+    <div class="card">
+      <div class="row" style="justify-content:space-between;margin-bottom:8px">
+        <h3>Class risk table</h3>
+        <div class="row">
+          <label for="filter-status">Status:</label>
+          <select id="filter-status">
+            <option value="all">All</option><option value="high">Needs support</option>
+            <option value="mid">Watch</option><option value="low">On track</option>
+          </select>
+          <label for="filter-group">Group:</label>
+          <select id="filter-group">
+            <option value="all">All</option><option>Typical</option><option>Dyslexia</option>
+            <option>Dyscalculia</option><option>ADHD</option>
+          </select>
+          <label for="search-name">Search:</label>
+          <input type="text" id="search-name" placeholder="name…" style="width:110px" />
+          <button id="btn-csv" class="small-btn">⬇️ Download class report (CSV)</button>
+        </div>
+      </div>
+      <p class="muted small">Click a column header to sort · click a row to open the student detail panel.</p>
+      <div class="table-wrap">
+        <table id="class-table">
+          <thead><tr>
+            <th data-sort="name">Student</th><th data-sort="grade">Grade</th><th data-sort="group">Group</th>
+            <th data-sort="avg">Avg score</th><th data-sort="trend">Trend</th><th data-sort="completion">Completion</th>
+            <th data-sort="inactive">Days inactive</th><th data-sort="risk">Risk</th><th data-sort="status">Status</th><th class="nosort">Trend chart</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <h3>🧑‍🎓 Student detail panel</h3>
+      <div id="student-detail"><span class="muted">Click a student row above to see their full profile, charts and per-topic accuracy.</span></div>
+    </div>
+  </section>
+
+  <!-- ============ RESPONSIBLE AI ============ -->
+  <section id="tab-impact" hidden>
+    <div class="sec-head"><h2>🌍 Responsible AI &amp; SDG 4 Impact</h2><span class="sec-badge">RESPONSIBLE AI</span></div>
+    <div class="grid g2">
+      <div class="card">
+        <h3>🔒 Privacy by design</h3>
+        <p class="small">Everything runs in the browser — no backend, no accounts, no API keys. The demo dataset is
+        <b>synthetic</b>: no real student data is collected or stored. In a production deployment, LearnEase would follow
+        data-minimisation (behavioural features only, no names shared with the model), on-device or school-hosted inference,
+        and explicit parent consent under India’s DPDP Act and similar rules.</p>
+        <h3>⚖️ Fairness check across groups</h3>
+        <p class="small">The fairness check compares model recall and average predicted risk across learner groups
+        (Typical, Dyslexia, Dyscalculia, ADHD). A group is flagged if its false-negative rate differs from the overall
+        rate by more than 10 percentage points.</p>
+        <div id="fairness-out"></div>
+        <button id="btn-fairness" class="small-btn">Run fairness check</button>
+      </div>
+      <div class="card">
+        <h3>🧑‍⚕️ Human-in-the-loop</h3>
+        <p class="small">LearnEase is an <b>assist</b>, not a decision-maker. Every alert explicitly asks the teacher to pair
+        the model’s signal with their own judgement. Teachers can override any status, and no consequential action
+        (extra support, parent contact, assessment changes) is taken without a human in the loop. Students always see
+        <b>why</b> each question was chosen, and every prediction comes with a plain-language explanation.</p>
+        <h3>⚠️ Limitations</h3>
+        <ul class="small" style="padding-left:18px;margin:6px 0">
+          <li>All data here is <b>synthetic</b> and illustrative — real accuracy will differ.</li>
+          <li>The mock LLM is a dictionary + rule simplifier, not a true language model.</li>
+          <li>Translation uses a small demo glossary, not a production translation engine.</li>
+          <li>Risk scores are screening signals; they must never be used to label or rank children.</li>
+          <li>Read-aloud quality depends on the device’s speech engine.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="row" style="justify-content:space-between">
+        <h3>🎯 SDG 4 impact indicators</h3>
+        <span class="muted small">clearly marked as <b>estimates</b> based on the synthetic demo data</span>
+      </div>
+      <div class="grid g3" id="sdg-cards"></div>
+    </div>
+  </section>
+
+  <!-- ============ BUSINESS ============ -->
+  <section id="tab-business" hidden>
+    <div class="sec-head"><h2>💼 Business View</h2><span class="sec-badge">SUSTAINABILITY MODEL</span></div>
+    <div class="grid g3">
+      <div class="card">
+        <h3>🏫 Schools <span class="muted small">(main customer)</span></h3>
+        <p class="small">Inclusive schools and mainstream schools with SEN units buy per-student annual licences.
+        Value: early learning-gap detection, less manual differentiation work, ready-made SEN-friendly lesson formats.</p>
+        <p class="small"><b>Revenue:</b> school licence — ₹250–400 / student / year (estimate), billed per class or campus, with an inclusive-education onboarding package for teachers.</p>
+      </div>
+      <div class="card">
+        <h3>👨‍👩‍👧 Parents</h3>
+        <p class="small">Freemium: simplified lessons and 1 adaptive quiz per day free. Premium unlocks unlimited practice,
+        full progress forecasting, parent alerts and the reminder agent.</p>
+        <p class="small"><b>Revenue:</b> parent freemium plan — ₹199 / month (estimate) premium tier, converting engaged free users.</p>
+      </div>
+      <div class="card">
+        <h3>🤝 NGOs &amp; CSR programmes</h3>
+        <p class="small">Education NGOs and corporate CSR programmes sponsor LearnEase for government and low-cost private
+        schools, aligned with SDG 4 reporting needs.</p>
+        <p class="small"><b>Revenue:</b> NGO &amp; CSR partnerships — per-school sponsorship grants (estimate), with impact dashboards as the deliverable.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <h3>🧭 Why this works</h3>
+      <p class="small">Schools already spend teacher hours on manual differentiation; LearnEase automates the lesson-adaptation
+      and early-warning parts, so one inclusive-education coordinator can support more students. The freemium parent plan funds
+      engagement at home, and CSR sponsorship makes the school licence affordable in low-income contexts — a cross-subsidy model
+      that keeps SDG 4 impact and revenue aligned.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap-inner">
+    <b>LearnEase AI</b> — demo build. All student data on this page is <b>synthetic</b> and generated in your browser;
+    the tutor uses a built-in <b>mock LLM</b> (demo mode) with a real LLM API pluggable later. No backend, no API keys, no tracking.
+    Aligned with <b>UN SDG 4: Quality Education</b>. ⚠️ Risk scores and impact indicators are estimates for demonstration — not diagnoses.
+    <br /><br />Built with ❤️ for inclusive classrooms · Runs fully offline · <span id="foot-year"></span>
+  </div>
+</footer>
+
+<script src="js/utils.js"></script>
+<script src="js/data.js"></script>
+<script src="js/ml.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/tutor.js"></script>
+<script src="js/quiz.js"></script>
+<script src="js/agents.js"></script>
+<script src="js/ui_tutor.js"></script>
+<script src="js/ui_quiz.js"></script>
+<script src="js/ui_models.js"></script>
+<script src="js/ui_teacher.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
